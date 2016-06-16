@@ -1,6 +1,32 @@
+require 'pry'
 require 'open-uri'
 require 'nokogiri'
-require 'pry'
+
+class Cli
+  def call
+    list
+  end
+
+  def list
+    puts "Welcome to mlb leading batters now!"
+    puts ""
+    puts "Select a number of players displayed (10, 20, 30, or 40)"
+    puts ""
+    input = gets.strip
+    if input == "10" || input == "20" || input == "30" || input == "40"
+      Scraper.print_battingleaders(input)
+    else
+      list
+    end
+  end
+
+end
+
+binding.pry
+
+# require 'open-uri'
+# require 'nokogiri'
+
 
 class Scraper
 
@@ -20,11 +46,11 @@ class Scraper
     end
   end
 
-  def print_battingleaders(n = 20)
+  def self.print_battingleaders(numb)
     odd_row_players = row_scraper("odd")
     even_row_players = row_scraper("even")
     i = 1
-    until i > (n/2)
+    until i > (numb/2)
       printf("%-4s", "#{i*2 -1}:")
       printf("%-27s", "#{odd_row_players[i-1][:name]}")
       puts "#{odd_row_players[i-1][:batting_ave]}"
@@ -57,5 +83,3 @@ class Player
     @@all
   end
 end
-
-binding.pry
