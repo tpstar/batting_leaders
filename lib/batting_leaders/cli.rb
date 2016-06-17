@@ -3,17 +3,10 @@ class BattingLeaders::CLI
   def call
     list_players
     menu
-    goodbye
   end
 
   def list_players
-    puts "List of top MLB current players for batting average:"
-    puts ""
-#    puts "Select a number of players displayed (10, 20, 30, or 40)"
-    puts ""
-    puts "   Player                      batting ave"
-    puts "1. Daniel Murphy               .359"
-    puts "2. Xander Bogaerts             .358"
+    BattingLeaders::Player.all
   end
 
   def menu
@@ -29,6 +22,7 @@ class BattingLeaders::CLI
       when "list"
         list_players
       when "exit"
+        goodbye
       else
         puts "invalid input, please type again (1-20, list, or exit)"
       end
