@@ -1,8 +1,6 @@
 # BattingLeaders
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/batting_leaders`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A command line interface app for listing current MLB batting leaders for batting average.  This app allows users to check the current MLB batting leaders, and select a player in the list to see a more detailed info on the player.  The app scrapes the info from ESPN.go.com using nokogiri and open-url.
 
 ## Installation
 
@@ -22,7 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Start the app by typing:
+
+    $ batting_leaders
+
+, and follow the instructions in the app.
 
 ## Development
 
@@ -38,4 +40,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
