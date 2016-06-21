@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
-require './lib/batting_leaders'
+require 'require_all'
+
+require_rel '../lib'
+
 
 BattingLeaders::CLI.new.call
