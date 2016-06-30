@@ -1,7 +1,10 @@
 require 'open-uri'
 require 'nokogiri'
-# require 'pry'
+require 'pry'
 
+ATTR = {
+  @team => ".general-info .last"
+}
 
 class BattingLeaders::Player
   attr_accessor :name, :batting_ave, :url
@@ -19,20 +22,13 @@ class BattingLeaders::Player
   end
 
   def self.sorted_batters
-    self.batting_leaders.sort_by {|player| player.batting_ave}.reverse! #sort by attribute (batting_ave) of Player's instance
+    self.batting_leaders.sort {|player, player2| player2.batting_ave <=> player.batting_ave} #sort by attribute (batting_ave) of Player's instance
   end
 
   def self.batting_leaders
-    self.row_scraper("odd")
-    self.row_scraper("even")
-    self.all
-  end
-
-  def self.row_scraper(oddEven)
-    oddEven =="odd" ? odd_or_even_row = "oddrow" : odd_or_even_row = "evenrow"
+#    oddEven =="odd" ? odd_or_even_row = "oddrow" : odd_or_even_row = "evenrow"
     get_page = Nokogiri::HTML(open"http://espn.go.com/mlb/stats/batting/_/year/2016/seasontype/2")
-
-    get_page.css("tr.#{odd_or_even_row}").collect do |player|
+    get_page.css("tr.oddrow,.evenrow").collect do |player|
       player_attributes = {:name => player.css("a").text,
                            :url => player.css("a").attribute("href").value,
                            :batting_ave => player.css(".sortcell").text}
@@ -84,4 +80,13 @@ class BattingLeaders::Player
     @obp ||= doc.css(".header-stats td")[3].text
   end
 
+  def player_details()
+
+  end
+
+  def player_detail(detail, selector, option={text: true})
+    if index = option[:index]
+      detail ||= doc.css(selector)[index]
+      el
+  end
 end

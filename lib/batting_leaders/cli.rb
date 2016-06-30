@@ -20,8 +20,8 @@ class BattingLeaders::CLI
     puts ""
     if number_players == 10 || number_players == 20 || number_players == 30 || number_players == 40
       puts "---Player--------------------batting ave---"
-      @sorted_leading_batters[0,number_players].each_with_index do |player, index|
-        printf("%-3s", "#{index + 1}:")
+      @sorted_leading_batters[0,number_players].each.with_index(1) do |player, index|
+        printf("%-3s", "#{index}:")
         printf("%-27s", "#{player.name}")
         puts "#{player.batting_ave}"
       end
