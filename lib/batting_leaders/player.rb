@@ -2,13 +2,23 @@ require 'open-uri'
 require 'nokogiri'
 require 'pry'
 
-ATTR = {
-  @team => ".general-info .last"
-}
 
 class BattingLeaders::Player
   attr_accessor :name, :batting_ave, :url
   @@all = []
+
+  PlayerDetails = {
+  #  @team => ".general-info .last"
+    team: [".general-info .last", 0, ""],
+    number_position: [".general-info .first", 0, ""],
+    birth_date: [".player-metadata li", 0, "Birth Date"],
+    homerun: [".header-stats td", 1, ""],
+    experience: [".player-metadata li", 2, "Experience"],
+    college: [".player-metadata li", 3, "College"],
+    ht_wt: [".player-metadata li", 4, "Ht/Wt"],
+    rbi: [".header-stats td", 2, ""],
+    obp: [".header-stats td", 3, ""]
+  }
 
   def initialize(player_hash)
     @name = player_hash[:name]
@@ -44,49 +54,12 @@ class BattingLeaders::Player
     @doc ||= Nokogiri::HTML(open"#{@url}").css(".mod-content")
   end
 
-  def number_position
-    @number_position ||= doc.css(".general-info .first").text
+  def other_details
+    player_detail_hash = {}
+    PlayerDetails.each do |attribute, values|  #values = ["css selector", index, "erased text using gsub" ]
+      player_detail_hash[attribute] ||= doc.css(values[0])[values[1]].text.gsub(values[2], "")
+    end
+    player_detail_hash
   end
 
-  def team
-    @team ||= doc.css(".general-info .last").text
-  end
-
-  def birth_date
-    @birth_date ||= doc.css(".player-metadata li")[0].text.gsub("Birth Date", "")
-  end
-
-  def experience
-    @experience ||= doc.css(".player-metadata li")[2].text.gsub("Experience", "")
-  end
-
-  def college
-    @college ||= doc.css(".player-metadata li")[3].text.gsub("College", "")
-  end
-
-  def ht_wt
-    @ht_wt ||= doc.css(".player-metadata li")[4].text.gsub("Ht/Wt", "")
-  end
-
-  def homerun
-    @homerun ||= doc.css(".header-stats td")[1].text
-  end
-
-  def rbi
-    @rbi ||= doc.css(".header-stats td")[2].text
-  end
-
-  def obp
-    @obp ||= doc.css(".header-stats td")[3].text
-  end
-
-  def player_details()
-
-  end
-
-  def player_detail(detail, selector, option={text: true})
-    if index = option[:index]
-      detail ||= doc.css(selector)[index]
-      el
-  end
 end
