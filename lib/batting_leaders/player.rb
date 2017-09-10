@@ -37,7 +37,8 @@ class BattingLeaders::Player
 
   def self.batting_leaders
 #    oddEven =="odd" ? odd_or_even_row = "oddrow" : odd_or_even_row = "evenrow"
-    get_page = Nokogiri::HTML(open"http://espn.go.com/mlb/stats/batting/_/year/2016/seasontype/2")
+    current_year = Date.today.year
+    get_page = Nokogiri::HTML(open"http://espn.go.com/mlb/stats/batting/_/#{current_year}/2016/seasontype/2")
     get_page.css("tr.oddrow,.evenrow").collect do |player|
       player_attributes = {:name => player.css("a").text,
                            :url => player.css("a").attribute("href").value,
